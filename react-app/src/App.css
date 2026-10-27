@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+	justify-content: flex-start;
   background: #f5f7ff;
   color: #1f2937;
   text-align: center;
@@ -12,12 +12,38 @@
 
 h1 {
   margin: 0;
-  font-size: 3rem;
+	font-size: 2.5rem;
   font-weight: 700;
 }
 
+h2 {
+  margin: 2rem 0 0;
+}
+
 .subtitle {
-  margin-top: 1rem;
-  font-size: 1.2rem;
+	margin: 0.5rem 0 1.5rem;
   color: #4b5563;
+}
+
+.status,
+.error {
+  margin: 1rem 0;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+.data-output {
+  width: min(100%, 800px);
+  margin: 0;
+  padding: 1.5rem;
+  overflow-x: auto;
+  border: 1px solid #dbe3f0;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #111827;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
