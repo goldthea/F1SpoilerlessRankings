@@ -45,3 +45,28 @@ export async function getOpenF1ChampionshipDrivers(sessionKey) {
 
   return drivers
 }
+
+export async function getOpenF1Drivers(sessionKey) {
+  if (sessionKey === undefined || sessionKey === null || sessionKey === '') {
+	throw new Error('A session key is required')
+  }
+
+  const response = await fetch(
+	`https://api.openf1.org/v1/drivers?session_key=${encodeURIComponent(sessionKey)}`,
+  )
+
+  if (!response.ok) {
+	throw new Error(`OpenF1 request failed: ${response.status} ${response.statusText}`)
+  }
+
+  const drivers = await response.json()
+
+  if (!Array.isArray(drivers)) {
+	throw new Error('OpenF1 returned an invalid drivers response')
+  }
+
+  return drivers.map((driver) => ({
+	driver_number: driver.driver_number,
+	full_name: driver.full_name,
+  }))
+}

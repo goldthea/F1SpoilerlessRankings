@@ -75,3 +75,27 @@ h2 {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+.standings-table {
+  width: min(100%, 800px);
+  border-collapse: collapse;
+  margin: 0;
+  background: #ffffff;
+  text-align: left;
+}
+
+.standings-table th,
+.standings-table td {
+  padding: 0.8rem 1rem;
+  border: 1px solid #dbe3f0;
+}
+
+.standings-table th {
+  background: #eaf0fb;
+  font-weight: 700;
+}
+
+.standings-table td:last-child,
+.standings-table th:last-child {
+  text-align: right;
+}

@@ -2,6 +2,7 @@ import './App.css'
 import { useEffect, useState } from 'react'
 import {
   getOpenF1ChampionshipDrivers,
+  getOpenF1Drivers,
   getOpenF1Sessions,
 } from './services/openF1Service'
 
@@ -42,10 +43,28 @@ function App() {
     setDrivers(null)
     setDriverError(null)
 
-    getOpenF1ChampionshipDrivers(selectedSessionKey)
-      .then((data) => {
+    Promise.all([
+      getOpenF1ChampionshipDrivers(selectedSessionKey),
+      getOpenF1Drivers(selectedSessionKey),
+    ])
+      .then(([championshipDrivers, driverDetails]) => {
+        const driverNames = new Map(
+          driverDetails.map((driver) => [
+            String(driver.driver_number),
+            driver.full_name,
+          ]),
+        )
+
+        const driverStandings = championshipDrivers.map((driver) => ({
+          driver_number: driver.driver_number,
+          full_name:
+            driverNames.get(String(driver.driver_number)) ??
+            `Driver ${driver.driver_number}`,
+          points_start: driver.points_start,
+        }))
+
         if (isMounted) {
-          setDrivers(data)
+          setDrivers(driverStandings)
         }
       })
       .catch((requestError) => {
@@ -93,8 +112,26 @@ function App() {
           {!driverError && !drivers && (
             <p className="status">Loading drivers...</p>
           )}
-          {drivers && (
-            <pre className="data-output">{JSON.stringify(drivers, null, 2)}</pre>
+          {drivers && drivers.length === 0 && (
+            <p className="status">No championship drivers were found.</p>
+          )}
+          {drivers && drivers.length > 0 && (
+            <table className="standings-table">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th>Points at start</th>
+                </tr>
+              </thead>
+              <tbody>
+                {drivers.map((driver) => (
+                  <tr key={driver.driver_number}>
+                    <td>{driver.full_name}</td>
+                    <td>{driver.points_start}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </>
       )}
