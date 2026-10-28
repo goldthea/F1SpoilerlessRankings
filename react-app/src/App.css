@@ -25,6 +25,34 @@ h2 {
   color: #4b5563;
 }
 
+.selectors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: min(100%, 800px);
+  margin: 1.5rem 0;
+}
+
+.selectors label {
+  display: flex;
+  flex: 1 1 280px;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #374151;
+  font-weight: 600;
+  text-align: left;
+}
+
+.selectors select {
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.4rem;
+  background: #ffffff;
+  color: #111827;
+  font: inherit;
+}
+
 .status,
 .error {
   margin: 1rem 0;
