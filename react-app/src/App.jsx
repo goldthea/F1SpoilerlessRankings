@@ -60,7 +60,7 @@ function App() {
           full_name:
             driverNames.get(String(driver.driver_number)) ??
             `Driver ${driver.driver_number}`,
-          points_start: driver.points_start,
+          points_current: driver.points_current,
         }))
 
         if (isMounted) {
@@ -92,7 +92,7 @@ function App() {
         <>
           <div className="selectors">
             <label>
-              Session
+              Select the most recent race you HAVE seen
               <select
                 value={selectedSessionKey}
                 onChange={(event) => setSelectedSessionKey(event.target.value)}
@@ -120,14 +120,14 @@ function App() {
               <thead>
                 <tr>
                   <th>Driver</th>
-                  <th>Points at start</th>
+                  <th>Points after the selected race</th>
                 </tr>
               </thead>
               <tbody>
                 {drivers.map((driver) => (
                   <tr key={driver.driver_number}>
                     <td>{driver.full_name}</td>
-                    <td>{driver.points_start}</td>
+                    <td>{driver.points_current}</td>
                   </tr>
                 ))}
               </tbody>
