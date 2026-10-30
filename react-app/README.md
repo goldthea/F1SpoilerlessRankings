@@ -1,16 +1,35 @@
-# React + Vite
+# F1 Rankings
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+F1 Rankings is a spoilerless Formula 1 standings viewer. Select a completed race or sprint to see the drivers' and constructors' championship points **before** that event, making it easier to catch up on the season without revealing a result.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Includes completed races and sprint events.
+- Shows standings from the event immediately before the selected event.
+- Handles loading, empty, and API error states.
+- Uses the [OpenF1 API](https://openf1.org/) for live session and championship data.
 
-## React Compiler
+## Run locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+cd react-app
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+The production build can be checked with:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm run lint
+npm run build
+```
+
+## Project structure
+
+- `src/App.jsx` contains the main React UI and data-loading flow.
+- `src/services/openF1Service.js` contains the OpenF1 API integration and session filtering.
+- `src/App.css` and `src/index.css` contain the responsive presentation styles.
+
+## Data and limitations
+
+The app requires network access to the OpenF1 API.
