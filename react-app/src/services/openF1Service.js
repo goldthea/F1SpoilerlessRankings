@@ -14,14 +14,17 @@ export async function getOpenF1Sessions() {
 	throw new Error('OpenF1 returned an invalid sessions response')
   }
 
-	return sessions.map((session) => ({
+	return sessions
+	.filter((session) => new Date(session.date_start) <= new Date())
+	.filter((session) => !session.is_cancelled)
+	.map((session) => ({
 	session_key: session.session_key,
 	session_name: session.session_name,
 	date_start: session.date_start,
 	circuit_short_name: session.circuit_short_name,
 	country_name: session.country_name,
 	location: session.location,
-  }))
+	}))
 }
 
 export async function getOpenF1ChampionshipDrivers(sessionKey) {
@@ -46,13 +49,10 @@ export async function getOpenF1ChampionshipDrivers(sessionKey) {
   return drivers
 }
 
-export async function getOpenF1Drivers(sessionKey) {
-  if (sessionKey === undefined || sessionKey === null || sessionKey === '') {
-	throw new Error('A session key is required')
-  }
+export async function getOpenF1Drivers() {
 
   const response = await fetch(
-	`https://api.openf1.org/v1/drivers?session_key=${encodeURIComponent(sessionKey)}`,
+	`https://api.openf1.org/v1/drivers`,
   )
 
   if (!response.ok) {
@@ -68,5 +68,30 @@ export async function getOpenF1Drivers(sessionKey) {
   return drivers.map((driver) => ({
 	driver_number: driver.driver_number,
 	full_name: driver.full_name,
+  }))
+}
+
+export async function getOpenF1ChampionshipTeams(sessionKey) {
+  if (sessionKey === undefined || sessionKey === null || sessionKey === '') {
+	throw new Error('A session key is required')
+  }
+
+  const response = await fetch(
+	`https://api.openf1.org/v1/championship_teams?session_key=${encodeURIComponent(sessionKey)}`,
+  )
+
+  if (!response.ok) {
+	throw new Error(`OpenF1 request failed: ${response.status} ${response.statusText}`)
+  }
+
+  const teams = await response.json()
+
+  if (!Array.isArray(teams)) {
+	throw new Error('OpenF1 returned an invalid championship teams response')
+  }
+
+  return teams.map((team) => ({
+	team_name: team.team_name,
+	points_current: team.points_current,
   }))
 }

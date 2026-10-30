@@ -44,6 +44,10 @@ h2 {
   text-align: left;
 }
 
+.standings-table + h2 {
+  margin-top: 2rem;
+}
+
 .selectors select {
   padding: 0.7rem 0.8rem;
   border: 1px solid #cbd5e1;
